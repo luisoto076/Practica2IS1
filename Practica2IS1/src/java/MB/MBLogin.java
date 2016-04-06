@@ -13,7 +13,10 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import Mapeo.Login;
+import Mapeo.Usuario;
+import controlador.UsuarioDaoHibernate;
 import controlador.LoginDaoHibernate;
+
 
 @ManagedBean
 @RequestScoped
@@ -29,7 +32,7 @@ public class MBLogin {
     private String clave;
     private String msn;
     private String msn1;
-
+    private Usuario usuario;
     
     public String login() {
         LoginDaoHibernate loginDAO = new LoginDaoHibernate();
@@ -37,11 +40,29 @@ public class MBLogin {
         for(Login l : logins){
             if(l.getNikname().equals(getNikname()) && l.getClave().equals(getClave())){
                 msn = "Bienvenido "+ getNikname();
-                return "perfil";
+                msn1 = getNikname();
+                UsuarioDaoHibernate usuarioDao = new UsuarioDaoHibernate(); 
+                List<Usuario> usuarios = usuarioDao.findAll();
+                for(Usuario u: usuarios){
+                    if(u.getIdUsuario()==l.getIdUsuario()){
+                         setUsuario(u);
+                        return "perfil";
+                    }
+                }
             }
         }
         msn = "error! Usuario o contraseña incorrectos";
         return "index";
+    }
+    
+    public String salir() {
+        msn = "Adios";
+        return "index";
+    }
+    
+    public String perfil(){
+        System.out.println(getNikname());
+        return "perfil";
     }
     
     public String getNikname() {
@@ -74,6 +95,14 @@ public class MBLogin {
 
     public void setMsn1(String msn1) {
         this.msn1 = msn1;
+    }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 }

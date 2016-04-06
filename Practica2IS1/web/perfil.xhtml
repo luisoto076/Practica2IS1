@@ -6,7 +6,19 @@
         <title>Perfil</title>
     </h:head>
     <h:body>
-        Este es un perfil
+        <h:outputLabel value="Tus datos"/>
+        <br/>
+        <h:outputLabel value="Nombre: "/>
+        <h:outputText value="#{mBLogin.usuario.getNombre()}"/>
+        <br/>
+        <h:outputLabel value="Apellidos: "/>
+        <h:outputText value="#{mBLogin.usuario.getApellidos()}"/>
+        <br/>
+        <h:outputLabel value="Correo: "/>
+        <h:outputText value="#{mBLogin.usuario.getCorreo()}"/>
+        <h:form>
+            <h:commandButton value="cerrar session" action="#{mBLogin.salir()}"/>
+        </h:form>
     </h:body>
 </html>
 
